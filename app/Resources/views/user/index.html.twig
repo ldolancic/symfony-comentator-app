@@ -1,0 +1,18 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h1>Authors</h1>
+        <ul>
+            {% for user in users %}
+                <li>
+                    <a href="{{ path('show_user_comments', {username: user.username, page: 1}) }}">{{ user.username }}</a>
+                </li>
+            {% else %}
+                <li>
+                    Ehh.. no users here, but feel free to <a href="{{ path('show_add_comment_page') }}">add a comment...</a>
+                </li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

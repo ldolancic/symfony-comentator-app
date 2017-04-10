@@ -1,0 +1,41 @@
+{% extends 'layouts/main.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <h1>{{ user.username|capitalize }}</h1>
+
+        {% for notification in app.session.flashBag.get('notification') %}
+            <p>
+                {{ notification }}
+            </p>
+        {% endfor %}
+
+        <h3>Comments:</h3>
+        <ul>
+            {% for comment in currentPageComments %}
+                <li>{{ comment.content }}</li>
+            {% endfor %}
+        </ul>
+
+        {% if totalComments > resultsPerPage %}
+            <ul class="pagination">
+                {% for pageNumber in 1 .. (totalComments / resultsPerPage)|round(0, 'ceil') %}
+                    <li>
+                        <a href="{{ url('show_user_comments', {username: user.username, page: pageNumber}) }}">
+                            {{ pageNumber }}
+                        </a>
+                    </li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    </div>
+{% endblock %}
+
+{% block customStyle %}
+    {{ parent() }}
+    <style>
+        .pagination li {
+            display: inline-block;
+        }
+    </style>
+{% endblock %}
